@@ -1,0 +1,31 @@
+import os
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+
+# Inisialisasi stemmer
+factory = StemmerFactory()
+stemmer = factory.create_stemmer()
+
+# Folder dokumen
+folder_path = "..\hasil_preprocessing"
+output_folder = "hasil_stemming/"
+
+os.makedirs(output_folder, exist_ok=True)
+
+# Loop semua file di folder
+for filename in os.listdir(folder_path):
+    if filename.endswith(".txt"):
+        input_path = os.path.join(folder_path, filename)
+        output_path = os.path.join(output_folder, filename)
+
+        # Baca isi dokumen
+        with open(input_path, "r", encoding="utf-8") as f:
+            text = f.read()
+
+        # Stemming
+        stemmed_text = stemmer.stem(text)
+
+        # Simpan hasil
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(stemmed_text)
+
+        print(f"[✓] {filename} selesai di-stemming.")
